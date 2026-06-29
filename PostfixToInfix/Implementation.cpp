@@ -12,7 +12,7 @@ using namespace std;
             st.pop();
             string s2=st.top();
             st.pop();
-            string ans="("+s1+s[i]+s2+")";
+            string ans="("+s2+s[i]+s1+")";
             st.push(ans);
         }
         i++;
