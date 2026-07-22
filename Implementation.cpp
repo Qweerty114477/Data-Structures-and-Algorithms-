@@ -1,48 +1,34 @@
 #include<bits/stdc++.h>
 using namespace std;
-int priority(char ch){
-    int ans;
-    if(ch=='^') ans=3;
-    else if(ch=='*'||ch=='/') ans=2;
-    else if(ch=='+'||ch=='-') ans=1;
-    else return -1;
-    return ans;
-}
-string InfixToPostfix(string s){
-    string ans="";
-    stack<char>st;
-    int i=0;
-    while(i<s.size()){
-        if((s[i]>='A'&&s[i]<='Z')||(s[i]>='a'&&s[i]<='z')||(s[i]>='0'&&s[i]<='9')){
-            ans+=s[i];
-        }
-        else if(s[i]=='('){
-            st.push(s[i]);
-        }
-        else if(s[i]==')'){
-            while(!st.empty()&&st.top()!='('){
-                ans+=st.top();
-                st.pop();
-            }
-            st.pop();
-        }
-        else{
-            while(!st.empty()&&((priority(s[i])<priority(st.top()))||(priority(s[i])==priority(st.top())&&s[i]!='^'))){
-                ans+=st.top();
-                st.pop();
-            }
-            st.push(s[i]);
-        }
-        i++;
+class Node{
+    public:
+    int data;
+    Node* left;
+    Node* right;
+    Node(int data1){
+        this->data=data1;
+        this->left=NULL;
+        this->right=NULL;
     }
-    while(!st.empty()){
-        ans+=st.top();
-        st.pop();
+};
+Node* builtTree(Node* root){
+    cout<<"Enter The data"<<endl;
+    int data;
+    cin>>data;
+    Node * newnode=new Node(data);
+    if(data==-1){
+        return NULL;
     }
-    return ans;
+    cout<<"Enter the data to left of "<<data<<endl;
+   // cin>>data;
+    newnode->left=builtTree(newnode->left);
+    cout<<"Enter the data to right of "<<data<<endl;
+   // cin>>data;
+   newnode->right=builtTree(newnode->right);
+   return newnode;
 }
 int main(){
-    string s="((a+B)*(c-D)/(e+F^g)-H)*(i+J/(k-L*m))^(N-o+P)";
-    cout<<InfixToPostfix(s)<<endl;
+    Node* root=NULL;
+    root=builtTree(root);
     return 0;
 }
